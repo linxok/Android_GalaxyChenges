@@ -1,5 +1,6 @@
 package com.home.linxok.galaxychenges;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
     protected void onDestroy() {
 
         super.onDestroy();
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void loadParam() {
-        sPref = getPreferences(MODE_PRIVATE);
+        sPref = getSharedPreferences("MyPref",MODE_PRIVATE);
         txtEdit.setText(sPref.getString("GalaxyName", ""));
         chBox1.setChecked(sPref.getBoolean("Moon", false));
         chBox2.setChecked(sPref.getBoolean("Singular", false));
@@ -68,18 +67,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
         }
         Toast.makeText(this, "Text Load", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.buttonStart){
             saveParam();
+            Intent intent = new Intent(this, ViewActivity.class);
+            startActivity(intent);
         }
     }
 
     private void saveParam() {
 
-        sPref = getPreferences(MODE_PRIVATE);
+        sPref = getSharedPreferences("MyPref",MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();
         ed.putString("GalaxyName", String.valueOf(txtEdit.getText()));
         ed.putBoolean("Moon", chBox1.isChecked());
